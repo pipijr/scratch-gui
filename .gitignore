@@ -23,3 +23,5 @@ npm-*
 
 # Downloaded during "npm install"
 /static/microbit
+
+/assets
