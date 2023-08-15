@@ -55,6 +55,11 @@ const base = {
             }
         },
         {
+            test: /\.mjs$/,
+            include: /node_modules/,
+            type: 'javascript/auto'
+        },
+        {
             test: /\.css$/,
             use: [{
                 loader: 'style-loader'
@@ -128,6 +133,7 @@ module.exports = [
         entry: {
             'lib.min': ['react', 'react-dom'],
             'gui': './src/playground/index.jsx',
+            'native': './src/playground/native/index.jsx',
             'blocksonly': './src/playground/blocks-only.jsx',
             'compatibilitytesting': './src/playground/compatibility-testing.jsx',
             'player': './src/playground/player.jsx'
@@ -167,6 +173,12 @@ module.exports = [
                 chunks: ['lib.min', 'gui'],
                 template: 'src/playground/index.ejs',
                 title: 'Scratch 3.0 GUI'
+            }),
+            new HtmlWebpackPlugin({
+                chunks: ['lib.min', 'native'],
+                filename: 'native.html',
+                template: 'src/playground/native/index.ejs',
+                title: 'Scratch iOS'
             }),
             new HtmlWebpackPlugin({
                 chunks: ['lib.min', 'blocksonly'],

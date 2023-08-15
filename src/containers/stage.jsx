@@ -8,6 +8,7 @@ import {connect} from 'react-redux';
 import {STAGE_DISPLAY_SIZES} from '../lib/layout-constants';
 import {getEventXY} from '../lib/touch-utils';
 import VideoProvider from '../lib/video/video-provider';
+import NativeVideoProvider from '../lib/video/native-video-provider';
 import {BitmapAdapter as V2BitmapAdapter} from 'scratch-svg-renderer';
 
 import StageComponent from '../components/stage/stage.jsx';
@@ -60,7 +61,8 @@ class Stage extends React.Component {
             this.props.vm.attachRenderer(this.renderer);
 
             // Only attach a video provider once because it is stateful
-            this.props.vm.setVideoProvider(new VideoProvider());
+            const videoProvider = drmer.bridge ? new NativeVideoProvider() : new VideoProvider();
+            this.props.vm.setVideoProvider(videoProvider);
 
             // Calling draw a single time before any project is loaded just makes
             // the canvas white instead of solid black–needed because it is not

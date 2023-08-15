@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import bindAll from 'lodash.bindall';
 import RecordingStepComponent from '../components/record-modal/recording-step.jsx';
 import AudioRecorder from '../lib/audio/audio-recorder.js';
+import NativeAudioRecorder from '../lib/audio/native-audio-recorder';
 import {defineMessages, injectIntl, intlShape} from 'react-intl';
 
 const messages = defineMessages({
@@ -31,7 +32,7 @@ class RecordingStep extends React.Component {
         };
     }
     componentDidMount () {
-        this.audioRecorder = new AudioRecorder();
+        this.audioRecorder = drmer.bridge ? new NativeAudioRecorder() : new AudioRecorder();
         this.audioRecorder.startListening(this.handleStarted, this.handleLevelUpdate, this.handleRecordingError);
     }
     componentWillUnmount () {
@@ -54,8 +55,10 @@ class RecordingStep extends React.Component {
         this.props.onRecord();
     }
     handleStopRecording () {
-        const {samples, sampleRate, levels, trimStart, trimEnd} = this.audioRecorder.stop();
-        this.props.onStopRecording(samples, sampleRate, levels, trimStart, trimEnd);
+        (async () => {
+            const {samples, sampleRate, levels, trimStart, trimEnd} = await this.audioRecorder.stop();
+            this.props.onStopRecording(samples, sampleRate, levels, trimStart, trimEnd);
+        })();
     }
     render () {
         const {
