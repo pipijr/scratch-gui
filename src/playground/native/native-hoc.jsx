@@ -149,7 +149,7 @@ const NativeHoc = function (WrappedComponent) {
                     canSave={false}
                     canChangeLanguage
                     canChangeTheme={false}
-                    backpackVisible
+                    backpackVisible={false}
                     backpackHost={'native:BackpackService'}
                     isScratchDesktop={false}
                     canShare={false}
